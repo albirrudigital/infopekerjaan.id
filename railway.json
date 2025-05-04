@@ -1,0 +1,16 @@
+{
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "commands": {
+      "build": "npm run build",
+      "start": "npm run start"
+    }
+  },
+  "deploy": {
+    "startCommand": "npm run start",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 500
+  }
+}
