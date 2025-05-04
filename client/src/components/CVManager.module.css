@@ -1,0 +1,31 @@
+.cvContainer {
+  padding: 24px;
+}
+
+.profileCard {
+  margin-bottom: 24px;
+}
+
+.uploadBtn {
+  margin-bottom: 16px;
+}
+
+.cvModal {
+  min-width: 600px;
+}
+
+.cvForm {
+  padding: 16px 0;
+}
+
+.submitBtn {
+  width: 100%;
+}
+
+.marginBottom16 {
+  margin-bottom: 16px;
+}
+
+.fullWidth {
+  width: 100%;
+} 

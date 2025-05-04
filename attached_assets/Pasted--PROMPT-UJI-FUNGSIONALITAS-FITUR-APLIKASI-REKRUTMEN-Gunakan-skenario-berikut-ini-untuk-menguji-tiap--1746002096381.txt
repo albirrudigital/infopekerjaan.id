@@ -1,0 +1,102 @@
+ PROMPT UJI FUNGSIONALITAS FITUR APLIKASI REKRUTMEN
+Gunakan skenario berikut ini untuk menguji tiap fitur utama:
+
+🔹 1. Halaman Utama (Landing Page)
+Tujuan: Memastikan halaman depan memuat konten dengan benar dan interaktif.
+
+Langkah Uji:
+
+Buka halaman utama aplikasi (misalnya https://infopekerjaan.id)
+
+Cek apakah:
+
+🔍 Search Bar muncul dan bisa menerima input (contoh: ketik “Admin” lalu tekan Enter)
+
+📂 Kategori Lowongan Populer muncul? (misalnya “Pabrik”, “Magang”, “Remote”)
+
+🖼️ Slider Perusahaan Populer dan Tips Karir berjalan otomatis dan dapat diklik
+
+🔹 2. Sistem Login & Register
+Tujuan: Verifikasi alur autentikasi pengguna
+
+Langkah Uji:
+
+Klik tombol Login dan Register di navbar
+
+Uji skenario berikut:
+
+👤 Daftar sebagai Pencari Kerja: Isi data, submit, cek apakah diarahkan ke dashboard
+
+🏢 Daftar sebagai Perusahaan/HRD: Cek validasi field & redirect
+
+🔄 Setelah login, refresh halaman: Apakah session tetap aktif?
+
+❌ Coba login dengan data salah → cek validasi error muncul?
+
+🔹 3. Fitur Pencarian Lowongan
+Tujuan: Pastikan pencarian & filter bekerja dengan benar
+
+Langkah Uji:
+
+Masukkan kata kunci seperti Operator, Magang, Admin
+
+Uji filter:
+
+📍 Lokasi (Bekasi, Jakarta)
+
+🏭 Industri (Manufaktur, IT)
+
+📅 Tanggal Posting (7 hari terakhir)
+
+Klik salah satu hasil → pastikan diarahkan ke halaman Detail Lowongan
+
+🔹 4. Apply (Lamar) Lowongan
+Tujuan: Cek apakah pelamar bisa mengirim lamaran
+
+Langkah Uji:
+
+Login sebagai pencari kerja
+
+Pilih lowongan & klik tombol “Lamar Sekarang”
+
+Uji:
+
+📎 Upload CV (PDF)
+
+📝 Isi Form Lamaran
+
+✅ Submit → pastikan ada notifikasi berhasil
+
+🕓 Cek apakah riwayat lamaran muncul di dashboard
+
+🔹 5. Profil Pencari Kerja
+Tujuan: Verifikasi kelengkapan dan edit data profil
+
+Langkah Uji:
+
+Login sebagai pencari kerja
+
+Masuk ke halaman Profil
+
+Cek fitur:
+
+Tambah/Edit: 🖼️ Foto, 📄 Bio, 🎓 Pendidikan, 💼 Pengalaman
+
+Klik Simpan Profil → pastikan perubahan tersimpan
+
+Cek juga histori lamaran bisa ditampilkan
+
+🔹 6. Dashboard Perusahaan (HRD)
+Tujuan: Memastikan dashboard HRD bisa posting dan kelola lowongan
+
+Langkah Uji:
+
+Login sebagai user Perusahaan/HRD
+
+Coba buat posting:
+
+Judul, Deskripsi, Lokasi, Syarat, Gaji, dll → isi lengkap & submit
+
+Setelah posting: cek apakah lowongan tampil di halaman pencarian publik
+
+Cek juga daftar pelamar muncul di dashboard

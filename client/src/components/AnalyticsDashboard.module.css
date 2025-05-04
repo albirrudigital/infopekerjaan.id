@@ -1,0 +1,28 @@
+.dashboardContainer {
+  padding: 24px;
+}
+
+.metricsRow {
+  margin-bottom: 24px;
+}
+
+.chartCard {
+  margin-bottom: 24px;
+}
+
+.chartContainer {
+  width: 100%;
+  min-height: 300px;
+}
+
+.alertContainer {
+  margin-top: 16px;
+}
+
+.selectCompany {
+  width: 200px;
+}
+
+.rangePicker {
+  margin-bottom: 16px;
+} 

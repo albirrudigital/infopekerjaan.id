@@ -1,0 +1,24 @@
+.premiumContainer {
+  padding: 24px;
+}
+
+.subscriptionCard {
+  margin-bottom: 24px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.modalContent {
+  margin-top: 24px;
+}
+
+.successContent {
+  text-align: center;
+}
+
+.successIcon {
+  font-size: 48px;
+  color: #52c41a;
+} 

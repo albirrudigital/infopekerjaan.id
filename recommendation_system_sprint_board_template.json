@@ -1,0 +1,410 @@
+{
+  "project": "Recommendation System",
+  "key": "RECJOB",
+  "sprint": {
+    "name": "Sprint 1 - User Interaction Tracking",
+    "goal": "Implement foundation for user interaction tracking and data collection for recommendation engine",
+    "startDate": "2025-04-30",
+    "endDate": "2025-05-13",
+    "duration": "2 weeks"
+  },
+  "team": [
+    {
+      "id": "TL1",
+      "name": "Tech Lead",
+      "role": "Technical Lead",
+      "capacity": 10
+    },
+    {
+      "id": "BE1",
+      "name": "Backend Developer 1",
+      "role": "Backend Developer",
+      "capacity": 10
+    },
+    {
+      "id": "BE2",
+      "name": "Backend Developer 2",
+      "role": "Backend Developer",
+      "capacity": 6
+    },
+    {
+      "id": "FE1",
+      "name": "Frontend Developer 1",
+      "role": "Frontend Developer",
+      "capacity": 10
+    },
+    {
+      "id": "FE2",
+      "name": "Frontend Developer 2",
+      "role": "Frontend Developer",
+      "capacity": 8
+    },
+    {
+      "id": "QA1",
+      "name": "QA Engineer",
+      "role": "QA Engineer",
+      "capacity": 10
+    },
+    {
+      "id": "DA1",
+      "name": "Data Analyst",
+      "role": "Data Analyst",
+      "capacity": 5
+    },
+    {
+      "id": "PM1",
+      "name": "Product Manager",
+      "role": "Product Manager",
+      "capacity": 6
+    }
+  ],
+  "columns": [
+    {
+      "id": "backlog",
+      "name": "Backlog",
+      "description": "Tasks planned for the sprint but not yet started"
+    },
+    {
+      "id": "todo",
+      "name": "To Do",
+      "description": "Tasks ready to be worked on"
+    },
+    {
+      "id": "inprogress",
+      "name": "In Progress",
+      "description": "Tasks currently being worked on"
+    },
+    {
+      "id": "review",
+      "name": "Code Review",
+      "description": "Tasks waiting for code review"
+    },
+    {
+      "id": "qa",
+      "name": "QA",
+      "description": "Tasks ready for testing"
+    },
+    {
+      "id": "done",
+      "name": "Done",
+      "description": "Tasks completed and verified"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "REC-1",
+      "title": "Setup database schema for user interactions",
+      "description": "Create and migrate database schema for user_job_interactions table with appropriate indexes",
+      "type": "Technical Task",
+      "priority": "P0",
+      "status": "todo",
+      "assignee": "BE1",
+      "storyPoints": 3,
+      "labels": ["database", "schema", "foundation"],
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "Schema created with all required fields",
+        "Appropriate indexes created for query optimization",
+        "Migration script tested and functional",
+        "Rollback script provided",
+        "Schema documentation updated"
+      ]
+    },
+    {
+      "id": "REC-2",
+      "title": "Implement InteractionService",
+      "description": "Develop service layer to handle interaction operations (CRUD)",
+      "type": "Technical Task",
+      "priority": "P0",
+      "status": "todo",
+      "assignee": "BE1",
+      "storyPoints": 2,
+      "labels": ["backend", "service", "interactions"],
+      "dependencies": ["REC-1"],
+      "acceptanceCriteria": [
+        "Service methods for creating, reading interactions",
+        "Batch processing for performance",
+        "Error handling implemented",
+        "Unit tests with >80% coverage",
+        "Service documented"
+      ]
+    },
+    {
+      "id": "REC-3",
+      "title": "Create API endpoints for interaction tracking",
+      "description": "Implement REST API endpoints for recording user interactions with jobs",
+      "type": "Technical Task",
+      "priority": "P0",
+      "status": "todo",
+      "assignee": "BE2",
+      "storyPoints": 3,
+      "labels": ["backend", "api", "interactions"],
+      "dependencies": ["REC-2"],
+      "acceptanceCriteria": [
+        "POST endpoint for recording interactions",
+        "Request validation implemented",
+        "Authentication & authorization",
+        "Rate limiting to prevent abuse",
+        "API documentation updated"
+      ]
+    },
+    {
+      "id": "REC-4",
+      "title": "Develop useJobInteractions hook",
+      "description": "Create React hook for tracking job interactions from frontend components",
+      "type": "Technical Task",
+      "priority": "P1",
+      "status": "todo",
+      "assignee": "FE1",
+      "storyPoints": 3,
+      "labels": ["frontend", "hooks", "interactions"],
+      "dependencies": ["REC-3"],
+      "acceptanceCriteria": [
+        "Hook provides methods for different interaction types",
+        "Loading state handling",
+        "Error handling",
+        "Unit tests",
+        "Usage documentation"
+      ]
+    },
+    {
+      "id": "REC-5",
+      "title": "Integrate tracking with existing JobCard component",
+      "description": "Update JobCard component to track view, save, and apply interactions",
+      "type": "Technical Task",
+      "priority": "P1",
+      "status": "todo",
+      "assignee": "FE1",
+      "storyPoints": 2,
+      "labels": ["frontend", "integration", "interactions"],
+      "dependencies": ["REC-4"],
+      "acceptanceCriteria": [
+        "View tracking on mount/unmount",
+        "Click tracking on job title",
+        "Save/unsave tracking",
+        "Apply tracking",
+        "User experience not affected by tracking"
+      ]
+    },
+    {
+      "id": "REC-6",
+      "title": "Integrate tracking with JobDetail page",
+      "description": "Update JobDetail page to track detailed view interactions with duration",
+      "type": "Technical Task",
+      "priority": "P1",
+      "status": "todo",
+      "assignee": "FE2",
+      "storyPoints": 2,
+      "labels": ["frontend", "integration", "interactions"],
+      "dependencies": ["REC-4"],
+      "acceptanceCriteria": [
+        "View duration tracking",
+        "Scroll depth tracking",
+        "Sections viewed tracking",
+        "Apply from detail page tracking",
+        "User experience not affected by tracking"
+      ]
+    },
+    {
+      "id": "REC-7",
+      "title": "Create basic analytics queries",
+      "description": "Develop SQL queries for analyzing interaction data",
+      "type": "Technical Task",
+      "priority": "P2",
+      "status": "todo",
+      "assignee": "DA1",
+      "storyPoints": 2,
+      "labels": ["data", "analytics", "sql"],
+      "dependencies": ["REC-1"],
+      "acceptanceCriteria": [
+        "Query for most interacted jobs",
+        "Query for most active users",
+        "Query for interaction trends over time",
+        "Query for conversion funnel (view->save->apply)",
+        "Performance optimization for large datasets"
+      ]
+    },
+    {
+      "id": "REC-8",
+      "title": "Implement basic admin analytics dashboard",
+      "description": "Create basic dashboard for viewing interaction analytics",
+      "type": "Technical Task",
+      "priority": "P2",
+      "status": "todo",
+      "assignee": "FE2",
+      "storyPoints": 3,
+      "labels": ["frontend", "dashboard", "analytics"],
+      "dependencies": ["REC-7"],
+      "acceptanceCriteria": [
+        "Dashboard with key metrics",
+        "Filtering by date range",
+        "Basic visualizations (charts)",
+        "Admin-only access control",
+        "Responsive design"
+      ]
+    },
+    {
+      "id": "REC-9",
+      "title": "Add tracking for SearchResults page",
+      "description": "Integrate interaction tracking on search results page",
+      "type": "Technical Task",
+      "priority": "P2",
+      "status": "todo",
+      "assignee": "FE2",
+      "storyPoints": 2,
+      "labels": ["frontend", "integration", "interactions"],
+      "dependencies": ["REC-4"],
+      "acceptanceCriteria": [
+        "Impression tracking for search results",
+        "Click tracking from search results",
+        "Search query context added to interaction data",
+        "Filter context added to interaction data",
+        "User experience not affected"
+      ]
+    },
+    {
+      "id": "REC-10",
+      "title": "Implement basic fallback recommendations functionality",
+      "description": "Create API endpoint for fallback recommendations for new users",
+      "type": "Technical Task",
+      "priority": "P3",
+      "status": "todo",
+      "assignee": "BE2",
+      "storyPoints": 3,
+      "labels": ["backend", "recommendations", "algorithm"],
+      "dependencies": ["REC-3"],
+      "acceptanceCriteria": [
+        "API endpoint for recommendations",
+        "Popular jobs fallback implemented",
+        "Location-based fallback implemented",
+        "Profile-based fallback implemented",
+        "API documentation updated"
+      ]
+    },
+    {
+      "id": "REC-11",
+      "title": "Create test data generation script",
+      "description": "Develop script to generate test data for local development",
+      "type": "Technical Task",
+      "priority": "P3",
+      "status": "todo",
+      "assignee": "DA1",
+      "storyPoints": 1,
+      "labels": ["testing", "data", "development"],
+      "dependencies": ["REC-1"],
+      "acceptanceCriteria": [
+        "Script to generate user test data",
+        "Script to generate job test data",
+        "Script to generate interaction test data",
+        "Documentation for usage",
+        "Script only usable in development environment"
+      ]
+    },
+    {
+      "id": "REC-12",
+      "title": "Develop initial QA test plan",
+      "description": "Create comprehensive test plan for interaction tracking",
+      "type": "QA Task",
+      "priority": "P2",
+      "status": "todo",
+      "assignee": "QA1",
+      "storyPoints": 1,
+      "labels": ["qa", "testing", "documentation"],
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "Functional test cases for all user stories",
+        "Performance test scenarios",
+        "Edge case handling tests",
+        "Multi-device testing plan",
+        "Automated test framework setup"
+      ]
+    },
+    {
+      "id": "REC-13",
+      "title": "Technical documentation update",
+      "description": "Update technical documentation for interaction tracking system",
+      "type": "Documentation",
+      "priority": "P2",
+      "status": "todo",
+      "assignee": "TL1",
+      "storyPoints": 1,
+      "labels": ["documentation", "technical"],
+      "dependencies": ["REC-3", "REC-4"],
+      "acceptanceCriteria": [
+        "API documentation updated",
+        "Database schema documentation",
+        "Frontend integration guide",
+        "Development setup documentation",
+        "All docs in markdown format in repo"
+      ]
+    },
+    {
+      "id": "REC-14",
+      "title": "Performance testing for interaction endpoints",
+      "description": "Test performance of interaction endpoints under load",
+      "type": "QA Task",
+      "priority": "P2",
+      "status": "todo",
+      "assignee": "QA1",
+      "storyPoints": 2,
+      "labels": ["qa", "performance", "testing"],
+      "dependencies": ["REC-3"],
+      "acceptanceCriteria": [
+        "Load tests with concurrent users",
+        "Baseline performance metrics established",
+        "Bottlenecks identified (if any)",
+        "Recommendations for optimization",
+        "Performance test automation scripts"
+      ]
+    },
+    {
+      "id": "REC-15",
+      "title": "Sprint 1 demo preparation",
+      "description": "Prepare demo for Sprint 1 review meeting",
+      "type": "Task",
+      "priority": "P3",
+      "status": "todo",
+      "assignee": "PM1",
+      "storyPoints": 1,
+      "labels": ["demo", "sprint-review"],
+      "dependencies": [],
+      "acceptanceCriteria": [
+        "Demo script prepared",
+        "Working environment for demo",
+        "Key achievements highlighted",
+        "Challenges and learnings documented",
+        "Next steps outlined"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EPIC-1",
+      "title": "User Interaction Tracking System",
+      "description": "Build foundation for tracking user interactions with jobs",
+      "tasks": ["REC-1", "REC-2", "REC-3", "REC-4", "REC-5", "REC-6", "REC-9", "REC-12", "REC-13", "REC-14"]
+    },
+    {
+      "id": "EPIC-2",
+      "title": "Analytics Foundation",
+      "description": "Setup basic analytics for interaction data",
+      "tasks": ["REC-7", "REC-8", "REC-11"]
+    },
+    {
+      "id": "EPIC-3",
+      "title": "Recommendation Engine Foundation",
+      "description": "Begin building recommendation engine foundations",
+      "tasks": ["REC-10"]
+    }
+  ],
+  "metrics": {
+    "velocityGoal": 30,
+    "capacityAvailable": 65,
+    "priorityDistribution": {
+      "P0": 8,
+      "P1": 7,
+      "P2": 10,
+      "P3": 5
+    }
+  }
+}

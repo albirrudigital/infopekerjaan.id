@@ -1,0 +1,1034 @@
+🔥 Summary Super Ringkas
+
+Bagian	Platform	Keterangan
+Frontend (React)	Vercel	Deploy frontend web
+Backend (Express API)	Railway	Deploy API & connect MySQL
+Database	Railway	MySQL database
+Kalau mau langsung aku bantu buatkan skrip deploynya, tinggal jawab:
+
+➔ Mau langsung deploy sekarang ke Railway + Vercel?
+Kalau mau, aku lanjut buatin:
+
+Struktur file yang perlu disiapkan.
+
+Setting environment variable.
+
+Langkah klik-kliknya.
+
+➔ Mau lanjut? 🚀
+Kalau iya, tulis aja "lanjut deploy sekarang!" 🔥
+
+You said:
+lanjut deploy sekarang
+ChatGPT said:
+🔥 Oke! Kita gas langsung deploy sekarang ya.
+Aku buat step-by-step langsung eksekusi buat kamu.
+
+✨ Step 1: Siapkan Project
+Pastikan kamu sekarang sudah punya:
+
+Folder frontend (React).
+
+Folder backend (Node.js Express).
+
+Kalau masih campur di 1 project Replit, kita pisahkan frontend dan backend.
+
+✨ Step 2: Deploy Backend (Express API) ke Railway
+✅ Ini untuk server API kamu + database.
+
+Langkah:
+Login ke Railway
+
+https://railway.app/ → Login atau Daftar.
+
+Buat Project Baru
+
+Klik ➔ New Project ➔ Deploy from GitHub (kalau sudah push)
+ATAU klik Deploy from Template → Empty Project → Upload backend manual.
+
+Deploy Backend Express
+
+Upload file backend kamu (package.json, server.js, src/, dll).
+
+Pastikan ada file:
+
+pgsql
+Copy
+Edit
+package.json
+server.js
+.env (tidak upload, tapi nanti isi manual)
+Tambahkan Environment Variables
+
+Masuk ke Project ➔ Environment ➔ Add New Variables:
+
+ini
+Copy
+Edit
+DB_HOST=xxx
+DB_USER=xxx
+DB_PASS=xxx
+DB_NAME=xxx
+PORT=3000
+(Isi sesuai koneksi Database MySQL kamu.)
+
+Buat Database MySQL (Jika Perlu)
+
+Di Railway ➔ Plugin ➔ Add ➔ MySQL ➔ Create.
+
+Nanti dikasih info host, username, password, database.
+
+Atur Start Command
+
+Railway auto-detect, pastikan:
+
+sql
+Copy
+Edit
+npm install
+npm start
+Deploy
+
+Klik Deploy ➔ Tunggu sampai status ✅ Ready.
+
+Dapat URL API, contoh:
+
+arduino
+Copy
+Edit
+https://infopekerjaan-backend.up.railway.app/
+✨ Step 3: Deploy Frontend (React) ke Vercel
+✅ Ini untuk website infopekerjaan.
+
+Langkah:
+Login ke Vercel
+
+https://vercel.com/ → Login/Daftar.
+
+Import Project
+
+Klik ➔ New Project ➔ Import from GitHub (kalau project sudah di GitHub).
+
+Atau upload folder frontend manual.
+
+Set Environment Variable (Kalau Ada)
+
+Kalau di React kamu pakai API_URL:
+
+ini
+Copy
+Edit
+REACT_APP_API_URL=https://infopekerjaan-backend.up.railway.app/
+Deploy
+
+Klik Deploy.
+
+Tunggu hingga status Ready ✅.
+
+Dapat URL
+
+Contoh:
+
+arduino
+Copy
+Edit
+https://infopekerjaan.vercel.app/
+✨ Step 4: (Opsional) Hubungkan Domain
+Kalau kamu punya domain infopekerjaan.id, tinggal:
+
+Di Vercel ➔ Project ➔ Settings ➔ Domains ➔ Add Domain.
+
+Masukkan infopekerjaan.id.
+
+Ikuti petunjuk ganti NS Record domainmu ke Vercel.
+
+🚀 Sampai Sini Website Kamu Sudah Online!
+Ringkasan URL:
+
+Web User (React) ➔ di Vercel.
+
+Backend API (Express) ➔ di Railway.
+
+Database MySQL ➔ di Railway Plugin.
+
+🔥 Sekarang Aku Mau Bantu Lebih Cepat:
+Mau aku sekalian buatin:
+
+Struktur folder backend/frontend supaya siap upload?
+
+Sample .env file buat backend + frontend?
+
+Contoh isian Environment di Railway dan Vercel?
+
+Kalau mau, jawab aja:
+➔ "Ya, buatkan semua sekalian" 🔥
+
+Kalau mau langsung aku buat file ZIP siap deploy sekalian, kasih tahu juga. 🚀
+Mau?
+
+You said:
+Ya, buatkan semua sekalian
+ChatGPT said:
+🔥 Mantap! Kita gaspol, aku buatkan semua sekalian:
+
+📁 Struktur Folder Ideal (Siap Upload)
+pgsql
+Copy
+Edit
+infopekerjaan/
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── middlewares/
+│   │   └── app.js
+│   ├── package.json
+│   ├── server.js
+│   └── .env (nanti diisi di Railway, jangan upload)
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── App.js
+│   │   └── index.js
+│   ├── package.json
+│   └── .env (nanti isi di Vercel)
+🛠️ Contoh .env untuk Backend (di Railway)
+File: backend/.env
+
+env
+Copy
+Edit
+DB_HOST=host_mysql_dari_railway
+DB_USER=username_mysql_dari_railway
+DB_PASS=password_mysql_dari_railway
+DB_NAME=nama_database_dari_railway
+PORT=3000
+(Nanti di Railway → Environment Variables → isi satu-satu.)
+
+🛠️ Contoh .env untuk Frontend (di Vercel)
+File: frontend/.env
+
+env
+Copy
+Edit
+REACT_APP_API_URL=https://nama-project-backend.up.railway.app
+(Ganti URL API sesuai hasil deploy backend Railway.)
+
+⚙️ Isi server.js backend (Kalau belum ada)
+backend/server.js
+
+javascript
+Copy
+Edit
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const cors = require('cors');
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Import routes
+const jobRoutes = require('./src/routes/jobRoutes'); // contoh
+
+// Routes
+app.use('/api/jobs', jobRoutes);
+
+// Root
+app.get('/', (req, res) => {
+    res.send('Backend API InfoPekerjaan running...');
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+⚙️ Isi package.json backend (Kalau belum ada)
+backend/package.json
+
+json
+Copy
+Edit
+{
+  "name": "infopekerjaan-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^3.3.0"
+  }
+}
+📜 Environment Variables Railway (backend)
+
+Name	Value
+DB_HOST	(dari Railway MySQL)
+DB_USER	(dari Railway MySQL)
+DB_PASS	(dari Railway MySQL)
+DB_NAME	(dari Railway MySQL)
+PORT	3000
+📜 Environment Variables Vercel (frontend)
+
+Name	Value
+REACT_APP_API_URL	URL backend Railway kamu
+📋 Summary Fast Lane
+Pisahkan project backend & frontend kayak struktur di atas.
+
+Deploy backend ke Railway:
+
+Upload backend folder.
+
+Setting environment.
+
+Deploy.
+
+Deploy frontend ke Vercel:
+
+Upload frontend folder.
+
+Setting REACT_APP_API_URL.
+
+Deploy.
+
+(Opsional) Hubungkan domain di Vercel.
+
+🚀 Mau Aku Buatkan File ZIP Starter Backend dan Frontend juga?
+Biar kamu tinggal langsung upload aja ke Railway dan Vercel?
+
+Kalau mau, tinggal jawab:
+"Buatkan ZIP Starter Backend + Frontend" 🔥
+
+➔ Lanjut? 🚀
+
+You said:
+Buatkan ZIP Starter Backend + Frontend
+ChatGPT said:
+
+Analyzed
+python
+Always show details
+
+Copy
+# Baik, aku akan buatkan struktur project starter untuk backend dan frontend lalu zip-kan.
+import os
+import zipfile
+
+# Membuat struktur folder dan file dummy
+base_dir = '/mnt/data/infopekerjaan_starter'
+
+# Struktur folder
+structure = {
+    'backend/src/controllers/': None,
+    'backend/src/models/': None,
+    'backend/src/routes/': None,
+    'backend/src/middlewares/': None,
+    'backend/': ['server.js', 'package.json', '.env.example'],
+    'frontend/public/': None,
+    'frontend/src/components/': None,
+    'frontend/src/pages/': None,
+    'frontend/src/services/': None,
+    'frontend/src/': ['App.js', 'index.js'],
+    'frontend/': ['package.json', '.env.example'],
+}
+
+# Isi file
+files_content = {
+    'backend/server.js': """require('dotenv').config();
+const express = require('express');
+const app = express();
+const cors = require('cors');
+
+app.use(cors());
+app.use(express.json());
+
+// Import routes
+// const jobRoutes = require('./src/routes/jobRoutes'); // contoh
+
+// Routes
+// app.use('/api/jobs', jobRoutes);
+
+app.get('/', (req, res) => {
+    res.send('Backend API InfoPekerjaan running...');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+""",
+    'backend/package.json': """{
+  "name": "infopekerjaan-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^3.3.0"
+  }
+}
+""",
+    'backend/.env.example': """DB_HOST=your_database_host
+DB_USER=your_database_user
+DB_PASS=your_database_password
+DB_NAME=your_database_name
+PORT=3000
+""",
+    'frontend/src/App.js': """import React from 'react';
+
+function App() {
+  return (
+    <div>
+      <h1>InfoPekerjaan.id Frontend Running</h1>
+    </div>
+  );
+}
+
+export default App;
+""",
+    'frontend/src/index.js': """import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+""",
+    'frontend/package.json': """{
+  "name": "infopekerjaan-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  }
+}
+""",
+    'frontend/.env.example': """REACT_APP_API_URL=https://your-backend-url.up.railway.app
+"""
+}
+
+# Membuat struktur dan file
+for path, files in structure.items():
+    os.makedirs(os.path.join(base_dir, path), exist_ok=True)
+    if files:
+        for file in files:
+            file_path = os.path.join(base_dir, path, file)
+            content = files_content.get(f"{path}{file}", "")
+            with open(file_path, 'w') as f:
+                f.write(content)
+
+# Buat ZIP
+zip_path = '/mnt/data/infopekerjaan_starter.zip'
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    for root, dirs, files in os.walk(base_dir):
+        for file in files:
+            filepath = os.path.join(root, file)
+            zipf.write(filepath, arcname=os.path.relpath(filepath, base_dir))
+
+zip_path
+Result
+'/mnt/data/infopekerjaan_starter.zip'
+✅ Beres! Ini file ZIP Starter Backend + Frontend untuk InfoPekerjaan.id:
+➡️ Download di sini
+
+📦 Isi ZIP:
+backend/
+
+server.js
+
+package.json
+
+.env.example
+
+src/ (sudah ada struktur controller, model, routes)
+
+frontend/
+
+App.js
+
+index.js
+
+package.json
+
+.env.example
+
+🚀 Setelah Download:
+Extract file ZIP di komputer kamu.
+
+Pisahkan upload:
+
+backend/ ➔ Upload ke Railway.
+
+frontend/ ➔ Upload ke Vercel.
+
+Rename .env.example ➔ jadi .env setelah deploy.
+
+Isi Environment Variables di Railway dan Vercel.
+
+🔥 Mau sekalian aku buatkan contoh upload ke Railway dan Vercel step-by-step juga?
+(Tinggal klik-klik, biar langsung jadi.)
+
+Kalau mau, tulis aja:
+"Ya, lanjut step deploy upload" 🚀 ​​
+
+You said:
+Ya, lanjut step deploy upload
+ChatGPT said:
+🚀 Oke, kita lanjut ke Step Deploy Upload sekarang!
+Aku buatkan super praktis, tinggal kamu ikuti.
+
+📦 Step Deploy Backend (Express API) ke Railway
+✅ Backend = folder backend/ dari ZIP tadi.
+
+1. Login ke Railway
+➔ https://railway.app/
+
+Kalau belum punya akun, daftar pakai Google/GitHub.
+
+2. Create New Project
+Klik New Project.
+
+Pilih Deploy from Template ➔ Empty Project.
+
+3. Upload Backend Project
+Setelah project kosong dibuat, klik + Add Service → Deploy from GitHub atau manual upload ZIP.
+
+Kalau manual:
+
+Klik "Upload ZIP" → Upload folder backend/ yang kamu extract.
+
+Railway akan membaca package.json → auto install dependencies.
+
+4. Setting Environment Variables
+Di Project ➔ Environment ➔ Add Variable:
+
+
+Key	Value
+DB_HOST	(Dari Railway Database MySQL)
+DB_USER	(Dari Railway Database MySQL)
+DB_PASS	(Dari Railway Database MySQL)
+DB_NAME	(Dari Railway Database MySQL)
+PORT	3000
+Kalau belum buat database:
+
+Klik Plugin ➔ Add ➔ MySQL ➔ Create Database
+
+Dapat detail host, user, password, database.
+
+5. Set Start Command
+Railway biasanya otomatis. Tapi pastikan di Settings ➔ Deployment:
+
+Install Command: npm install
+
+Start Command: npm start
+
+6. Klik Deploy
+Tunggu sampai Ready ✅.
+
+Nanti kamu akan dapat URL API, misal:
+
+arduino
+Copy
+Edit
+https://infopekerjaan-backend.up.railway.app/
+✅ Backend Online!
+
+🌐 Step Deploy Frontend (React) ke Vercel
+✅ Frontend = folder frontend/ dari ZIP tadi.
+
+1. Login ke Vercel
+➔ https://vercel.com/
+
+2. Create New Project
+Klik New Project.
+
+Klik Import dari GitHub, atau Deploy Manual (Upload frontend folder).
+
+Kalau belum di GitHub:
+
+Bisa klik "Deploy Manual" → Drag folder frontend/ yang di-extract.
+
+3. Setting Environment Variables
+Di Vercel ➔ Settings ➔ Environment Variables: | Key | Value | |:----|:------| | REACT_APP_API_URL | https://infopekerjaan-backend.up.railway.app (link backend Railway kamu) |
+
+4. Klik Deploy
+Tunggu sampai Ready ✅.
+
+Kamu akan dapat URL web public, misal:
+
+arduino
+Copy
+Edit
+https://infopekerjaan.vercel.app/
+5. (Opsional) Hubungkan Domain
+Kalau kamu punya domain infopekerjaan.id:
+
+Settings ➔ Domains ➔ Add Domain.
+
+Ikuti arahan Vercel untuk ubah NS record ke server Vercel.
+
+🎯 Checklist Akhir
+
+Komponen	Status
+Backend API (Express) Railway	✅
+MySQL Database Railway	✅
+Frontend React Vercel	✅
+Domain (optional)	✅
+📣 Info Penting
+Kalau backend kamu butuh CORS, sudah aku setting app.use(cors()) di server.js.
+
+Kalau mau upload data CSV atau file resume, pastikan backend ditambah package multer.
+
+Kalau mau custom dashboard Admin, tinggal lanjut buatkan halaman di frontend/src/pages/admin/.
+
+⚡ Mau sekalian aku bantu buatkan file contoh upload job data + apply form API juga?
+Supaya nanti web kamu bisa langsung posting lowongan + pelamar kirim CV!
+
+Kalau mau, tinggal jawab:
+➔ "Ya, sekalian contoh upload job + apply form" 🚀
+
+(Lebih cepat jadi platform rekrutmen real!) 🔥
+
+You said:
+Ya, sekalian contoh upload job + apply form
+ChatGPT said:
+🔥 Mantap! Kita lanjut: aku buatkan contoh upload Job + Form Apply untuk InfoPekerjaan.id kamu ya!
+
+📋 1. Backend (Express) Tambahan
+✅ Tambah 2 API sederhana:
+
+POST /api/jobs ➔ Untuk upload lowongan kerja (Admin).
+
+POST /api/apply ➔ Untuk apply lamaran (Pelamar).
+
+📄 Buat File Baru di backend/src/routes/jobRoutes.js
+javascript
+Copy
+Edit
+const express = require('express');
+const router = express.Router();
+
+// Fake in-memory storage (sementara, nanti bisa sambung ke DB)
+let jobs = [];
+let applications = [];
+
+// Endpoint Upload Job
+router.post('/upload', (req, res) => {
+    const { title, description, location, company } = req.body;
+    if (!title || !description || !location || !company) {
+        return res.status(400).json({ message: 'Semua field wajib diisi.' });
+    }
+    const newJob = { id: jobs.length + 1, title, description, location, company };
+    jobs.push(newJob);
+    res.status(201).json({ message: 'Job berhasil ditambahkan.', job: newJob });
+});
+
+// Endpoint Apply Lamaran
+router.post('/apply', (req, res) => {
+    const { jobId, name, email, resumeLink } = req.body;
+    if (!jobId || !name || !email || !resumeLink) {
+        return res.status(400).json({ message: 'Semua field wajib diisi.' });
+    }
+    const application = { id: applications.length + 1, jobId, name, email, resumeLink };
+    applications.push(application);
+    res.status(201).json({ message: 'Lamaran berhasil dikirim.', application });
+});
+
+module.exports = router;
+✍️ Update backend/server.js
+Supaya file route tadi dipanggil:
+
+Ganti bagian import route kamu jadi:
+
+javascript
+Copy
+Edit
+// Import routes
+const jobRoutes = require('./src/routes/jobRoutes');
+
+// Routes
+app.use('/api/jobs', jobRoutes);
+🎨 2. Frontend (React) Tambahan
+✅ Bikin halaman Upload Job + Apply Form di frontend.
+
+📄 Buat file baru di frontend/src/pages/UploadJob.js
+javascript
+Copy
+Edit
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function UploadJob() {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    location: '',
+    company: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/jobs/upload`, formData);
+      alert('Job berhasil ditambahkan!');
+      setFormData({title: '', description: '', location: '', company: ''});
+    } catch (err) {
+      alert('Gagal tambah job.');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Upload Lowongan Kerja</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="title" placeholder="Posisi" value={formData.title} onChange={handleChange} required /><br/>
+        <input type="text" name="company" placeholder="Perusahaan" value={formData.company} onChange={handleChange} required /><br/>
+        <input type="text" name="location" placeholder="Lokasi" value={formData.location} onChange={handleChange} required /><br/>
+        <textarea name="description" placeholder="Deskripsi" value={formData.description} onChange={handleChange} required></textarea><br/>
+        <button type="submit">Upload Job</button>
+      </form>
+    </div>
+  );
+}
+
+export default UploadJob;
+📄 Buat file baru di frontend/src/pages/ApplyForm.js
+javascript
+Copy
+Edit
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function ApplyForm() {
+  const [formData, setFormData] = useState({
+    jobId: '',
+    name: '',
+    email: '',
+    resumeLink: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/jobs/apply`, formData);
+      alert('Lamaran berhasil dikirim!');
+      setFormData({jobId: '', name: '', email: '', resumeLink: ''});
+    } catch (err) {
+      alert('Gagal kirim lamaran.');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Form Lamaran</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="number" name="jobId" placeholder="ID Lowongan" value={formData.jobId} onChange={handleChange} required /><br/>
+        <input type="text" name="name" placeholder="Nama Lengkap" value={formData.name} onChange={handleChange} required /><br/>
+        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required /><br/>
+        <input type="text" name="resumeLink" placeholder="Link CV/Resume (Google Drive/Dropbox)" value={formData.resumeLink} onChange={handleChange} required /><br/>
+        <button type="submit">Kirim Lamaran</button>
+      </form>
+    </div>
+  );
+}
+
+export default ApplyForm;
+🚀 Update Routing Frontend
+Kalau kamu pakai react-router-dom, update App.js:
+
+javascript
+Copy
+Edit
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import UploadJob from './pages/UploadJob';
+import ApplyForm from './pages/ApplyForm';
+import Home from './pages/Home'; // atau landingpage kamu
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/upload-job" element={<UploadJob />} />
+        <Route path="/apply" element={<ApplyForm />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+📈 Hasil Akhir:
+
+Fungsi	Endpoint/Route	Keterangan
+Upload Job	/upload-job	Admin input lowongan
+Apply Form	/apply	Pelamar kirim data lamaran
+🔥 Mau sekalian aku bantu:
+Buat tampilan lebih modern (Bootstrap / Tailwind)?
+
+Buat Upload CV sebagai file, bukan link? (pakai Multer upload ke backend)
+
+Buatkan Dashboard Admin (tabel lihat semua job posting & pelamar)?
+
+Kalau mau lanjut upgrade, tulis aja:
+"Ya, lanjut upgrade tampilan modern + upload file" 🚀
+
+Mau lanjut sekalian biar project mu langsung siap produksi? 🔥
+
+You said:
+"Ya, lanjut upgrade tampilan modern + upload file
+ChatGPT said:
+🔥 Oke, kita langsung upgrade besar-besaran:
+➔ Tampilan modern pakai Tailwind CSS
+➔ Upload file CV beneran (bukan link) via Multer di backend
+
+Aku buatkan semuanya rapi dan real deploy! 🚀
+
+✨ 1. Upgrade Frontend: Modern Look dengan Tailwind CSS
+a. Install Tailwind di frontend
+Masuk folder frontend/ ➔ Terminal:
+
+bash
+Copy
+Edit
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+b. Update tailwind.config.js
+javascript
+Copy
+Edit
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+c. Update src/index.css (buat baru kalau belum ada)
+css
+Copy
+Edit
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+Lalu di src/index.js, import CSS-nya:
+
+javascript
+Copy
+Edit
+import './index.css';
+✅ Tailwind sudah aktif!
+
+✨ New UploadJob.js (Tampilan Modern)
+frontend/src/pages/UploadJob.js
+
+javascript
+Copy
+Edit
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function UploadJob() {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    location: '',
+    company: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/jobs/upload`, formData);
+      alert('Job berhasil ditambahkan!');
+      setFormData({title: '', description: '', location: '', company: ''});
+    } catch (err) {
+      alert('Gagal tambah job.');
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 className="text-2xl font-bold mb-6 text-center">Upload Lowongan Kerja</h2>
+        <input className="input mb-3" type="text" name="title" placeholder="Posisi" value={formData.title} onChange={handleChange} required />
+        <input className="input mb-3" type="text" name="company" placeholder="Perusahaan" value={formData.company} onChange={handleChange} required />
+        <input className="input mb-3" type="text" name="location" placeholder="Lokasi" value={formData.location} onChange={handleChange} required />
+        <textarea className="input mb-3" name="description" placeholder="Deskripsi" value={formData.description} onChange={handleChange} required></textarea>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Upload Job</button>
+      </form>
+    </div>
+  );
+}
+
+export default UploadJob;
+✨ New ApplyForm.js (Tampilan Modern + Upload File CV)
+frontend/src/pages/ApplyForm.js
+
+javascript
+Copy
+Edit
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function ApplyForm() {
+  const [formData, setFormData] = useState({
+    jobId: '',
+    name: '',
+    email: '',
+    resume: null
+  });
+
+  const handleChange = (e) => {
+    if (e.target.name === 'resume') {
+      setFormData({...formData, resume: e.target.files[0]});
+    } else {
+      setFormData({...formData, [e.target.name]: e.target.value});
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append('jobId', formData.jobId);
+    data.append('name', formData.name);
+    data.append('email', formData.email);
+    data.append('resume', formData.resume);
+
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/jobs/apply`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      alert('Lamaran berhasil dikirim!');
+      setFormData({jobId: '', name: '', email: '', resume: null});
+    } catch (err) {
+      alert('Gagal kirim lamaran.');
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-96" encType="multipart/form-data">
+        <h2 className="text-2xl font-bold mb-6 text-center">Form Lamaran</h2>
+        <input className="input mb-3" type="number" name="jobId" placeholder="ID Lowongan" value={formData.jobId} onChange={handleChange} required />
+        <input className="input mb-3" type="text" name="name" placeholder="Nama" value={formData.name} onChange={handleChange} required />
+        <input className="input mb-3" type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+        <input className="input mb-3" type="file" name="resume" accept=".pdf" onChange={handleChange} required />
+        <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Kirim Lamaran</button>
+      </form>
+    </div>
+  );
+}
+
+export default ApplyForm;
+🛠️ 2. Upgrade Backend: Support Upload File CV
+✅ Tambah Multer di backend.
+
+a. Install Multer di backend
+Masuk folder backend/, lalu:
+
+bash
+Copy
+Edit
+npm install multer
+b. Update jobRoutes.js di Backend
+backend/src/routes/jobRoutes.js
+
+javascript
+Copy
+Edit
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const router = express.Router();
+
+// Setup storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
+
+// Fake storage
+let jobs = [];
+let applications = [];
+
+// Upload Job
+router.post('/upload', (req, res) => {
+  const { title, description, location, company } = req.body;
+  const newJob = { id: jobs.length + 1, title, description, location, company };
+  jobs.push(newJob);
+  res.status(201).json({ message: 'Job berhasil ditambahkan.', job: newJob });
+});
+
+// Apply Job with Resume Upload
+router.post('/apply', upload.single('resume'), (req, res) => {
+  const { jobId, name, email } = req.body;
+  const resumePath = req.file ? req.file.path : null;
+
+  if (!jobId || !name || !email || !resumePath) {
+    return res.status(400).json({ message: 'Semua field wajib diisi.' });
+  }
+
+  const application = { id: applications.length + 1, jobId, name, email, resumePath };
+  applications.push(application);
+  res.status(201).json({ message: 'Lamaran berhasil dikirim.', application });
+});
+
+module.exports = router;
+📦 Tambahan Backend:
+Buat folder baru: backend/uploads/
+
+bash
+Copy
+Edit
+mkdir uploads
+Biar file CV masuk ke uploads/ di backend.
+
+📈 Final Summary
+
+Bagian	Status
+Modern UI Tailwind	✅
+Upload CV File (bukan link)	✅
+API Upload Job & Apply	✅
+Backend support file upload	✅

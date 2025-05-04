@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: multi-region-config
+data:
+  primary_region: "ap-southeast-1"
+  secondary_region: "ap-southeast-2"
+  failover_threshold: "5"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-load-balancer
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "global"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP
+    name: http
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: websocket
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: global-ingress
+  annotations:
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/healthcheck-path: "/health"
+    alb.ingress.kubernetes.io/healthcheck-port: "3000"
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "15"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/success-codes: "200"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "3"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: analytics-service
+            port:
+              number: 80
+      - path: /ws
+        pathType: Prefix
+        backend:
+          service:
+            name: analytics-service
+            port:
+              number: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-global
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: redis
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-global
+spec:
+  serviceName: redis-global
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:6.2-alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+        env:
+        - name: REDIS_REPLICATION_MODE
+          value: "master"
+        - name: REDIS_REPLICATION_ANNOUNCE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: "gp2" 

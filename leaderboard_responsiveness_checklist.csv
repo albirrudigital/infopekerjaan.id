@@ -1,0 +1,34 @@
+Area,Item,Status,Notes,Priority,Device
+Mobile View (320px-767px),Tidak ada horizontal scrolling pada body halaman,Pass,Tabel leaderboard tampil penuh tanpa scroll horizontal,High,iPhone SE
+Mobile View (320px-767px),Jarak (spacing) komponen proporsional,Pass,Jarak antar elemen terasa nyaman dan proporsional,High,iPhone SE
+Mobile View (320px-767px),Ukuran font terbaca dengan baik,Pass,Semua teks terbaca dengan jelas tanpa perlu zoom,High,iPhone SE
+Mobile View (320px-767px),Kolom penting (Peringkat Pengguna Pencapaian) terlihat jelas,Pass,Kolom-kolom prioritas tampil dengan baik,High,iPhone SE
+Mobile View (320px-767px),Lebar kolom proporsional dengan konten,Pass,Tidak ada kolom yang terlalu sempit atau lebar,Medium,iPhone SE
+Mobile View (320px-767px),Padding/margin sel tabel optimal untuk layar kecil,Pass,Padding sudah optimal tidak terlalu rapat atau renggang,Medium,iPhone SE
+Mobile View (320px-767px),Badge peringkat: ukuran kontras warna dan keterbacaan,Pass,Badge peringkat terlihat jelas dengan kontras warna baik,High,iPhone SE
+Mobile View (320px-767px),Badge pencapaian: proporsi ikon dan teks,Pass,Proporsi ikon dan teks pada badge seimbang,Medium,iPhone SE
+Mobile View (320px-767px),Tooltip berfungsi baik dan tidak terpotong,Pass,Tooltip muncul dengan sempurna tanpa overflow layar,Medium,iPhone SE
+Mobile View (320px-767px),Panel data pengguna saat ini responsif,Pass,Panel user saat ini tampil responsif di layar kecil,High,iPhone SE
+Mobile View (320px-767px),Semua elemen panel terlihat dan teratur,Pass,Elemen panel tertata rapi tanpa tumpang tindih,Medium,iPhone SE
+Mobile View (320px-767px),Tombol berbagi berfungsi baik di perangkat sentuh,Pass,Tombol berbagi dapat diklik dengan mudah,High,iPhone SE
+Mobile View (320px-767px),Area sentuh minimal 44px × 44px untuk semua tombol,Pass,Semua tombol memenuhi standar ukuran sentuh,High,iPhone SE
+Mobile View (320px-767px),Jarak antar elemen klik mencegah mistouch,Pass,Jarak antar tombol cukup untuk mencegah klik salah,High,iPhone SE
+Mobile View (320px-767px),Feedback visual saat interaksi sentuh,Pass,Ada respons visual yang jelas saat menekan tombol,Medium,iPhone SE
+Tablet View (768px-1024px),Transisi dari mobile ke desktop layout mulus,Pass,Layout berpindah dengan mulus tanpa elemen yang rusak,Medium,iPad
+Tablet View (768px-1024px),Kolom "Skor" dan "Perubahan" muncul dengan baik,Pass,Kolom tambahan muncul dengan alignment yang tepat,Medium,iPad
+Tablet View (768px-1024px),Proporsi dan perataan elemen konsisten,Pass,Lebar kolom seimbang tanpa ada yang terlalu sempit/lebar,Medium,iPad
+Tablet View (768px-1024px),Tata letak dan fungsi filter optimal,Pass,Filter berfungsi baik dan responsif di tablet,Medium,iPad
+Tablet View (768px-1024px),Dropdown dan opsi filter mudah diakses,Pass,Dropdown membuka dengan baik tanpa delay/glitch,Medium,iPad
+Tablet View (768px-1024px),Reset filter berfungsi dengan baik,Pass,Tombol reset filter berfungsi seperti yang diharapkan,Medium,iPad
+Tablet View (768px-1024px),Popover berbagi tampil tanpa terpotong,Pass,Popover muncul sempurna tanpa terpotong di sisi manapun,Medium,iPad
+Tablet View (768px-1024px),Tombol berbagi cukup besar untuk interaksi sentuh,Pass,Area sentuh tombol berbagi memenuhi standar 44px×44px,Medium,iPad
+Tablet View (768px-1024px),Tombol salin teks berfungsi dengan feedback,Pass,Tombol salin link berfungsi dengan feedback yang jelas,Medium,iPad
+Tablet View (768px-1024px),Animasi berjalan mulus tanpa jank/stutter,Pass,Animasi transisi saat filter/refresh data berjalan halus,Low,iPad
+Tablet View (768px-1024px),Efek hover/touch tidak mengganggu UX,Pass,Efek hover/touch memberikan feedback jelas tanpa delay,Low,iPad
+Tablet View (768px-1024px),Animasi load more button berfungsi dengan baik,Pass,Animasi loading dan penambahan data tabel berjalan lancar,Low,iPad
+Cross-Device Testing,Test di 2+ perangkat mobile berbeda (kecil dan besar),Pass,Diuji & berfungsi baik di Android (360px) & iPhone (375px),High,Android & iPhone
+Cross-Device Testing,Test di minimal 1 tablet,Pass,Diuji & berfungsi optimal di iPad (768px x 1024px),Medium,iPad
+Cross-Device Testing,Test di Chrome Safari Firefox,Pass,Konsisten di Chrome Android Safari iOS & Firefox Desktop,Medium,Multi-browser
+Cross-Device Testing,Waktu loading dan rendering tabel optimal,Pass,Loading cepat & ringan bahkan di perangkat mid-range,Medium,Android & iOS
+Cross-Device Testing,Animasi tidak memperlambat interaksi,Pass,Animasi tetap lancar tanpa menghambat UX,Low,Android & iOS
+Cross-Device Testing,Transisi antar state lancar di semua device,Pass,Transisi mulus di semua perangkat termasuk low-end,Low,Android 8 2GB RAM

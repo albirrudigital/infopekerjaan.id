@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+:root {
+      --background: 0 0% 100%;
+--foreground: 20 14.3% 4.1%;
+--muted: 60 4.8% 95.9%;
+--muted-foreground: 25 5.3% 44.7%;
+--popover: 0 0% 100%;
+--popover-foreground: 20 14.3% 4.1%;
+--card: 0 0% 100%;
+--card-foreground: 20 14.3% 4.1%;
+--border: 20 5.9% 90%;
+--input: 20 5.9% 90%;
+--primary: 220 80% 24%; /* Biru tua dari logo */
+--primary-foreground: 0 0% 100%;
+--secondary: 213 30% 45%; /* Biru yang lebih muda */
+--secondary-foreground: 0 0% 100%;
+--accent: 358 89% 50%; /* Merah dari logo */
+--accent-foreground: 0 0% 100%;
+--destructive: 0 84.2% 60.2%;
+--destructive-foreground: 60 9.1% 97.8%;
+--ring: 220 80% 24%;
+--radius: 0.5rem;
+  }
+  .dark {
+      --background: 240 10% 3.9%;
+--foreground: 0 0% 98%;
+--muted: 240 3.7% 15.9%;
+--muted-foreground: 240 5% 64.9%;
+--popover: 240 10% 3.9%;
+--popover-foreground: 0 0% 98%;
+--card: 240 10% 3.9%;
+--card-foreground: 0 0% 98%;
+--border: 240 3.7% 15.9%;
+--input: 240 3.7% 15.9%;
+--primary: 220 70% 35%; /* Biru tua dari logo (lebih terang untuk mode gelap) */
+--primary-foreground: 0 0% 100%;
+--secondary: 213 35% 55%; /* Biru yang lebih muda dan lebih terang untuk mode gelap */
+--secondary-foreground: 0 0% 100%;
+--accent: 358 95% 60%; /* Merah dari logo (lebih terang untuk mode gelap) */
+--accent-foreground: 0 0% 100%;
+--destructive: 0 62.8% 30.6%;
+--destructive-foreground: 0 0% 98%;
+--ring: 220 70% 35%;
+--radius: 0.5rem;
+  }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  
+  /* Aksesibilitas */
+  .accessibility-mode {
+    /* Tingkatkan kontras warna */
+    --foreground: 0 0% 0%;
+    --background: 0 0% 100%;
+    --muted: 210 40% 90%;
+    --muted-foreground: 0 0% 10%;
+    --border: 210 40% 80%;
+    
+    /* Lebih jelas fokus elemen */
+    --ring: 210 100% 50%;
+  }
+  
+  .accessibility-mode :focus {
+    outline: var(--focus-ring, 3px solid #0077FF);
+    outline-offset: 2px;
+  }
+  
+  .text-accessibility {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .text-accessibility h1 {
+    font-size: 2.2rem;
+  }
+  
+  .text-accessibility h2 {
+    font-size: 1.8rem;
+  }
+  
+  .text-accessibility button,
+  .text-accessibility a {
+    padding: 0.5rem 0.75rem;
+  }
+}
+

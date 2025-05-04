@@ -1,0 +1,361 @@
+import { Pool } from '@neondatabase/serverless';
+import { db } from './db';
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { eq, sql, desc, and, like } from 'drizzle-orm';
+import session from 'express-session';
+import createMemoryStore from "memorystore";
+import connectPg from "connect-pg-simple";
+import {
+  users, companies, jobs, applications, jobseekerProfiles, categories, blogPosts,
+  laborRegulations, provinces, cities, companyRegulations,
+  type User, type InsertUser,
+  type Company, type InsertCompany,
+  type Job, type InsertJob,
+  type Application, type InsertApplication,
+  type JobseekerProfile, type InsertJobseekerProfile,
+  type Category, type InsertCategory,
+  type BlogPost, type InsertBlogPost,
+  type LaborRegulation, type InsertLaborRegulation,
+  type Province, type InsertProvince,
+  type City, type InsertCity,
+  type CompanyRegulation, type InsertCompanyRegulation
+} from '@shared/schema';
+
+const PostgresSessionStore = connectPg(session);
+const MemoryStore = createMemoryStore(session);
+
+// Define the interface for storage operations
+export interface IStorage {
+  // Session store
+  sessionStore: session.Store;
+
+  // User operations
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+  
+  // Company operations
+  getCompany(id: number): Promise<Company | undefined>;
+  getCompaniesByEmployer(employerId: number): Promise<Company[]>;
+  getTopCompanies(limit?: number): Promise<Company[]>;
+  createCompany(company: InsertCompany): Promise<Company>;
+  updateCompany(id: number, company: Partial<Company>): Promise<Company | undefined>;
+  
+  // Job operations
+  getJob(id: number): Promise<Job | undefined>;
+  getJobs(options?: { 
+    limit?: number, 
+    offset?: number, 
+    query?: string, 
+    location?: string, 
+    companyId?: number, 
+    industry?: string,
+    type?: string
+  }): Promise<Job[]>;
+  getJobsByCompany(companyId: number): Promise<Job[]>;
+  createJob(job: InsertJob): Promise<Job>;
+  updateJob(id: number, job: Partial<Job>): Promise<Job | undefined>;
+  
+  // Application operations
+  getApplication(id: number): Promise<Application | undefined>;
+  getApplicationsByJob(jobId: number): Promise<Application[]>;
+  getApplicationsByJobseeker(jobseekerId: number): Promise<Application[]>;
+  createApplication(application: InsertApplication): Promise<Application>;
+  updateApplicationStatus(id: number, status: string): Promise<Application | undefined>;
+  
+  // Jobseeker Profile operations
+  getJobseekerProfile(userId: number): Promise<JobseekerProfile | undefined>;
+  createJobseekerProfile(profile: InsertJobseekerProfile): Promise<JobseekerProfile>;
+  updateJobseekerProfile(userId: number, profile: Partial<JobseekerProfile>): Promise<JobseekerProfile | undefined>;
+  
+  // Category operations
+  getCategories(): Promise<Category[]>;
+  getCategory(id: number): Promise<Category | undefined>;
+  getCategoryByName(name: string): Promise<Category | undefined>;
+  createCategory(category: InsertCategory): Promise<Category>;
+  
+  // Blog operations
+  getBlogPosts(limit?: number): Promise<BlogPost[]>;
+  getBlogPost(id: number): Promise<BlogPost | undefined>;
+  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  
+  // Labor Regulation operations
+  getLaborRegulations(options?: { 
+    limit?: number, 
+    offset?: number, 
+    province?: string, 
+    city?: string, 
+    category?: string 
+  }): Promise<LaborRegulation[]>;
+  getLaborRegulation(id: number): Promise<LaborRegulation | undefined>;
+  createLaborRegulation(regulation: InsertLaborRegulation): Promise<LaborRegulation>;
+  updateLaborRegulation(id: number, regulation: Partial<LaborRegulation>): Promise<LaborRegulation | undefined>;
+  
+  // Provinces and Cities operations
+  getProvinces(): Promise<Province[]>;
+  getProvince(id: number): Promise<Province | undefined>;
+  getProvinceByCode(code: string): Promise<Province | undefined>;
+  createProvince(province: InsertProvince): Promise<Province>;
+  
+  getCities(provinceId?: number): Promise<City[]>;
+  getCity(id: number): Promise<City | undefined>;
+  getCityByCode(code: string): Promise<City | undefined>;
+  createCity(city: InsertCity): Promise<City>;
+  updateCity(id: number, city: Partial<City>): Promise<City | undefined>;
+  
+  // Company Regulation operations
+  getCompanyRegulations(options?: { 
+    limit?: number, 
+    offset?: number, 
+    district?: string, 
+    city?: string,
+    businessType?: string
+  }): Promise<CompanyRegulation[]>;
+  getCompanyRegulationsCount(options?: { 
+    district?: string, 
+    city?: string,
+    businessType?: string
+  }): Promise<number>;
+  getCompanyRegulation(id: number): Promise<CompanyRegulation | undefined>;
+  createCompanyRegulation(company: InsertCompanyRegulation): Promise<CompanyRegulation>;
+  updateCompanyRegulation(id: number, company: Partial<CompanyRegulation>): Promise<CompanyRegulation | undefined>;
+}
+
+export class MemStorage implements IStorage {
+  private users: Map<number, User>;
+  private companies: Map<number, Company>;
+  private jobs: Map<number, Job>;
+  private applications: Map<number, Application>;
+  private jobseekerProfiles: Map<number, JobseekerProfile>;
+  private categories: Map<number, Category>;
+  private blogPosts: Map<number, BlogPost>;
+  sessionStore: session.Store;
+  
+  private userIdCounter: number = 1;
+  private companyIdCounter: number = 1;
+  private jobIdCounter: number = 1;
+  private applicationIdCounter: number = 1;
+  private profileIdCounter: number = 1;
+  private categoryIdCounter: number = 1;
+  private blogPostIdCounter: number = 1;
+  private laborRegulationIdCounter: number = 1;
+  private provinceIdCounter: number = 1;
+  private cityIdCounter: number = 1;
+
+  constructor() {
+    this.users = new Map();
+    this.companies = new Map();
+    this.jobs = new Map();
+    this.applications = new Map();
+    this.jobseekerProfiles = new Map();
+    this.categories = new Map();
+    this.blogPosts = new Map();
+    
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    });
+    
+    // Initialize with sample data
+    this.initializeData();
+  }
+
+  // ... other methods ...
+
+  // Company Regulation operations (MemStorage)
+  private companyRegulationIdCounter: number = 1;
+  private companyRegulations: Map<number, CompanyRegulation> = new Map();
+  
+  async getCompanyRegulations(options: { 
+    limit?: number, 
+    offset?: number, 
+    district?: string, 
+    city?: string,
+    businessType?: string
+  } = {}): Promise<CompanyRegulation[]> {
+    let regulations = Array.from(this.companyRegulations.values());
+    
+    // Apply filters
+    if (options.district) {
+      regulations = regulations.filter(reg => 
+        reg.district && reg.district.toLowerCase().includes(options.district!.toLowerCase())
+      );
+    }
+    
+    if (options.city) {
+      regulations = regulations.filter(reg => 
+        reg.city && reg.city.toLowerCase().includes(options.city!.toLowerCase())
+      );
+    }
+    
+    if (options.businessType) {
+      regulations = regulations.filter(reg => 
+        reg.businessType && reg.businessType.toLowerCase().includes(options.businessType!.toLowerCase())
+      );
+    }
+    
+    // Sort by newest first
+    regulations = regulations.sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    
+    // Apply pagination
+    const offset = options.offset || 0;
+    const limit = options.limit || regulations.length;
+    
+    return regulations.slice(offset, offset + limit);
+  }
+  
+  async getCompanyRegulationsCount(options: { 
+    district?: string, 
+    city?: string,
+    businessType?: string
+  } = {}): Promise<number> {
+    let regulations = Array.from(this.companyRegulations.values());
+    
+    // Apply filters
+    if (options.district) {
+      regulations = regulations.filter(reg => 
+        reg.district && reg.district.toLowerCase().includes(options.district!.toLowerCase())
+      );
+    }
+    
+    if (options.city) {
+      regulations = regulations.filter(reg => 
+        reg.city && reg.city.toLowerCase().includes(options.city!.toLowerCase())
+      );
+    }
+    
+    if (options.businessType) {
+      regulations = regulations.filter(reg => 
+        reg.businessType && reg.businessType.toLowerCase().includes(options.businessType!.toLowerCase())
+      );
+    }
+    
+    return regulations.length;
+  }
+  
+  async getCompanyRegulation(id: number): Promise<CompanyRegulation | undefined> {
+    return this.companyRegulations.get(id);
+  }
+  
+  async createCompanyRegulation(insertCompany: InsertCompanyRegulation): Promise<CompanyRegulation> {
+    const id = this.companyRegulationIdCounter++;
+    const createdAt = new Date();
+    const company: CompanyRegulation = { ...insertCompany, id, createdAt };
+    this.companyRegulations.set(id, company);
+    return company;
+  }
+  
+  async updateCompanyRegulation(id: number, updateData: Partial<CompanyRegulation>): Promise<CompanyRegulation | undefined> {
+    const company = this.companyRegulations.get(id);
+    if (!company) return undefined;
+    
+    const updatedCompany = { ...company, ...updateData };
+    this.companyRegulations.set(id, updatedCompany);
+    return updatedCompany;
+  }
+}
+
+export class DatabaseStorage implements IStorage {
+  sessionStore: session.Store;
+  
+  constructor() {
+    if (!process.env.DATABASE_URL) {
+      throw new Error("DATABASE_URL must be set for DatabaseStorage");
+    }
+    
+    this.sessionStore = new PostgresSessionStore({ 
+      pool, // from db.ts
+      createTableIfMissing: true 
+    });
+  }
+
+  // ... other methods ...
+
+  // Company Regulation operations (DatabaseStorage)
+  async getCompanyRegulations(options: { 
+    limit?: number, 
+    offset?: number, 
+    district?: string, 
+    city?: string,
+    businessType?: string
+  } = {}): Promise<CompanyRegulation[]> {
+    let query = db.select().from(companyRegulations);
+    
+    // Apply filters
+    if (options.district) {
+      query = query.where(eq(companyRegulations.district, options.district));
+    }
+    
+    if (options.city) {
+      query = query.where(eq(companyRegulations.city, options.city));
+    }
+    
+    if (options.businessType) {
+      query = query.where(eq(companyRegulations.businessType, options.businessType));
+    }
+    
+    // Apply pagination
+    if (options.limit !== undefined) {
+      query = query.limit(options.limit);
+    }
+    
+    if (options.offset !== undefined) {
+      query = query.offset(options.offset);
+    }
+    
+    // Sort by newest first
+    query = query.orderBy(desc(companyRegulations.createdAt));
+    
+    return await query;
+  }
+  
+  async getCompanyRegulationsCount(options: { 
+    district?: string, 
+    city?: string,
+    businessType?: string
+  } = {}): Promise<number> {
+    let query = db.select({ count: sql<number>`count(*)` }).from(companyRegulations);
+    
+    // Apply filters
+    if (options.district) {
+      query = query.where(eq(companyRegulations.district, options.district));
+    }
+    
+    if (options.city) {
+      query = query.where(eq(companyRegulations.city, options.city));
+    }
+    
+    if (options.businessType) {
+      query = query.where(eq(companyRegulations.businessType, options.businessType));
+    }
+    
+    const result = await query;
+    return result[0].count;
+  }
+  
+  async getCompanyRegulation(id: number): Promise<CompanyRegulation | undefined> {
+    const [company] = await db.select().from(companyRegulations).where(eq(companyRegulations.id, id));
+    return company;
+  }
+  
+  async createCompanyRegulation(insertCompany: InsertCompanyRegulation): Promise<CompanyRegulation> {
+    const [company] = await db
+      .insert(companyRegulations)
+      .values(insertCompany)
+      .returning();
+    return company;
+  }
+  
+  async updateCompanyRegulation(id: number, updateData: Partial<CompanyRegulation>): Promise<CompanyRegulation | undefined> {
+    const [updatedCompany] = await db
+      .update(companyRegulations)
+      .set(updateData)
+      .where(eq(companyRegulations.id, id))
+      .returning();
+    return updatedCompany;
+  }
+}
+
+export const storage = new DatabaseStorage();
